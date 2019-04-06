@@ -1,0 +1,10 @@
+ {
+    "database": "demo",
+    "username": "root",
+    "password": "13081999",
+    "params": {
+      "host": "localhost",
+      "dialect": "mysql",
+      "operatorsAliases": false
+    }
+  }
