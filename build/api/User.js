@@ -12,15 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = __importStar(require("express"));
 var UserController_1 = __importDefault(require("../controller/UserController"));
+var access_token_1 = __importDefault(require("../middleware/access_token"));
 var UserApi = /** @class */ (function () {
     function UserApi() {
         this.path = '/users';
         this.router = express.Router();
         this.controller = new UserController_1.default();
+        this.access = new access_token_1.default();
         this.intializeRoutes();
     }
     UserApi.prototype.intializeRoutes = function () {
-        this.router.route('/login').post(this.controller.login);
+        this.router.route('/login').post(this.access.access, this.controller.login);
         this.router.route(this.path).post(this.controller.create);
     };
     ;

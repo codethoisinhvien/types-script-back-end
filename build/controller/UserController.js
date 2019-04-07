@@ -36,26 +36,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var models_1 = require("../db/models");
+var jsonwebtoken_1 = require("jsonwebtoken");
+var key = 'phongthien';
 var UserController = /** @class */ (function () {
     function UserController() {
         var _this = this;
-        this.data = null;
+        this.data = {};
         this.status = 200;
         this.db = models_1.Database.setInstance(null);
         this.create = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
-            var user;
+            var user, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        //vadidate
                         console.log(request.body);
+                        if (!true) return [3 /*break*/, 4];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
                         return [4 /*yield*/, this.db.db.User.create({
                                 username: "phongthien",
                                 password: "99999999"
                             })];
-                    case 1:
+                    case 2:
                         user = _a.sent();
-                        console.log(user);
-                        response.status(this.status).json({ user: 'test' });
+                        this.data = {
+                            success: true,
+                            message: "Đăng kí thành công"
+                        };
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_1 = _a.sent();
+                        switch (e_1.parent.code) {
+                            case 'ER_DUP_ENTRY':
+                                this.data = {
+                                    success: false,
+                                    message: "Tài khoản đã tồn tại"
+                                };
+                                break;
+                        }
+                        return [3 /*break*/, 4];
+                    case 4:
+                        response.status(this.status).json(this.data);
                         return [2 /*return*/];
                 }
             });
@@ -73,9 +96,10 @@ var UserController = /** @class */ (function () {
             return [2 /*return*/];
         }); }); };
         this.login = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
+            var access_token;
             return __generator(this, function (_a) {
-                console.log(request.body);
-                response.status(this.status).json({ user: 'test' });
+                access_token = jsonwebtoken_1.sign({ user: 'giang' }, key);
+                response.status(this.status).json({ access_token: access_token });
                 return [2 /*return*/];
             });
         }); };

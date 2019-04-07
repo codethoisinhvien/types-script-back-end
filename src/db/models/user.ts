@@ -26,7 +26,10 @@ export interface UserInstance {
 
 export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
     var User = sequelize.define('User', {
-        username: DataTypes.STRING,
+        username:{
+            type:DataTypes.STRING,
+            unique: true
+        },
         password: DataTypes.STRING,
         first_name: DataTypes.STRING,
         last_name: DataTypes.STRING,

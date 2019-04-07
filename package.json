@@ -14,10 +14,12 @@
   "dependencies": {
     "@types/body-parser": "^1.17.0",
     "@types/express": "^4.16.1",
+    "@types/jsonwebtoken": "^8.3.2",
     "@types/sequelize": "^4.27.46",
     "cli": "^1.0.1",
     "config": "^3.0.1",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.5",
     "sequelize": "^5.2.11",

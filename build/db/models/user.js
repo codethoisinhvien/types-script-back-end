@@ -2,7 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserFactory = function (sequelize, DataTypes) {
     var User = sequelize.define('User', {
-        username: DataTypes.STRING,
+        username: {
+            type: DataTypes.STRING,
+            unique: true
+        },
         password: DataTypes.STRING,
         first_name: DataTypes.STRING,
         last_name: DataTypes.STRING,
