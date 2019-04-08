@@ -45,29 +45,27 @@ var UserController = /** @class */ (function () {
         this.status = 200;
         this.db = models_1.Database.setInstance(null);
         this.create = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
-            var user, e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, username, password, first_name, last_name, user, e_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         //vadidate
                         console.log(request.body);
+                        _a = request.body, username = _a.username, password = _a.password, first_name = _a.first_name, last_name = _a.last_name;
                         if (!true) return [3 /*break*/, 4];
-                        _a.label = 1;
+                        _b.label = 1;
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.db.db.User.create({
-                                username: "phongthien",
-                                password: "99999999"
-                            })];
+                        _b.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.db.db.User.create(request.body)];
                     case 2:
-                        user = _a.sent();
+                        user = _b.sent();
                         this.data = {
                             success: true,
                             message: "Đăng kí thành công"
                         };
                         return [3 /*break*/, 4];
                     case 3:
-                        e_1 = _a.sent();
+                        e_1 = _b.sent();
                         switch (e_1.parent.code) {
                             case 'ER_DUP_ENTRY':
                                 this.data = {
@@ -86,9 +84,37 @@ var UserController = /** @class */ (function () {
         this.get = function (request, response) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
             return [2 /*return*/];
         }); }); };
-        this.updateBaseInformation = function (request, response) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            return [2 /*return*/];
-        }); }); };
+        this.updateBaseInformation = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, first_name, last_name, birthday, user, e_2;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = request.body, first_name = _a.first_name, last_name = _a.last_name, birthday = _a.birthday;
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.db.db.User.update({
+                                first_name: request.body.first_name,
+                                last_name: request.body.last_name,
+                                birthday: request.body.birthday
+                            }, { where: 1 })];
+                    case 2:
+                        user = _b.sent();
+                        console.log(user);
+                        if (user != null) {
+                            // let name=giang
+                            response.status(this.status).json({ success: true, message: "Thay đổi thông tin thành công" });
+                        }
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_2 = _b.sent();
+                        console.log(e_2);
+                        response.status(this.status).json({ success: false, message: "Thay đổi thông tin thất bại" });
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        }); };
         this.updateRole = function (request, response) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
             return [2 /*return*/];
         }); }); };
@@ -96,11 +122,31 @@ var UserController = /** @class */ (function () {
             return [2 /*return*/];
         }); }); };
         this.login = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
-            var access_token;
-            return __generator(this, function (_a) {
-                access_token = jsonwebtoken_1.sign({ user: 'giang' }, key);
-                response.status(this.status).json({ access_token: access_token });
-                return [2 /*return*/];
+            var _a, username, password, user, access_token, role, e_3;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = request.body, username = _a.username, password = _a.password;
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.db.db.User.findOne({ where: { username: request.body.username } })];
+                    case 2:
+                        user = _b.sent();
+                        console.log(user.dataValues);
+                        if (user != null) {
+                            access_token = jsonwebtoken_1.sign({ user: user.dataValues }, key);
+                            role = 1;
+                            // let name=giang
+                            response.status(this.status).json({ access_token: access_token, role: role, user: user.dataValues.username });
+                        }
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_3 = _b.sent();
+                        console.log(e_3);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
             });
         }); };
     }

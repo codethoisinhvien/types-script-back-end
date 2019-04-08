@@ -28,7 +28,7 @@ var App = /** @class */ (function () {
     };
     App.prototype.initializeMiddlewares = function () {
         this.app.use(morgan('[:date[web]] ":method :url HTTP/:http-version" :status :res[content-length]'));
-        this.app.use(bodyParser.text({ extended: false }));
+        this.app.use(bodyParser.json());
         this.app.use(function (req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

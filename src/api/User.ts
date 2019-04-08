@@ -12,11 +12,15 @@ export class UserApi implements Api {
 
   }
   intializeRoutes() {
-    this.router.route('/login').post(this.access.access, this.controller.login)
+    this.router.route('/login').post(this.controller.login)
     this.router.route(this.path)
       .post(this.controller.create)
       .delete(this.access.adminAccess,this.controller.delete)
+      .patch(this.access.adminAccess,this.controller.updateRole)
+    this.router.route('/profile')
       .get(this.access.access,this.controller.get)
+      .put(this.access.access,this.controller.updateBaseInformation)
+
 
 
 
