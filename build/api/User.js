@@ -14,6 +14,7 @@ var express = __importStar(require("express"));
 var UserController_1 = __importDefault(require("../controller/UserController"));
 var access_token_1 = __importDefault(require("../middleware/access_token"));
 var UserApi = /** @class */ (function () {
+    // thieu email
     function UserApi() {
         this.path = '/users';
         this.router = express.Router();

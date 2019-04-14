@@ -40,6 +40,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __importDefault(require("sequelize/index"));
 var user_1 = require("../models/user");
+var question_1 = require("./question");
+var subject_1 = require("./subject");
+var question_answer_1 = require("./question_answer");
+var answer_1 = require("./answer");
+var exam_1 = require("./exam");
+var examquestion_1 = require("./examquestion");
 var Database = /** @class */ (function () {
     function Database(sequelizeConfig) {
         var _this = this;
@@ -48,7 +54,13 @@ var Database = /** @class */ (function () {
         this.db = {
             sequelize: this.sequelize,
             Sequelize: index_1.default,
-            User: user_1.UserFactory(this.sequelize, index_1.default)
+            User: user_1.UserFactory(this.sequelize, index_1.default),
+            QuestionAnswer: question_answer_1.QuestionAnwerFactory(this.sequelize, index_1.default),
+            Question: question_1.QuestionFactory(this.sequelize, index_1.default),
+            Answer: answer_1.AnswerFacatory(this.sequelize, index_1.default),
+            Subject: subject_1.SubjectFactory(this.sequelize, index_1.default),
+            Exam: exam_1.ExamFactory(this.sequelize, index_1.default),
+            ExamQuestion: examquestion_1.ExamQuestionFactory(this.sequelize, index_1.default)
         };
         Object.keys(this.db).forEach(function (modelName) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {

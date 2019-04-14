@@ -47,7 +47,7 @@ export default class UserController implements Controller {
         birthday:request.body.birthday
 
       },
-   {where: 1})
+   {where:{id:1}})
      console.log(user);
      if(user!=null){
     
@@ -66,7 +66,7 @@ export default class UserController implements Controller {
     const {username,password}= request.body
     try{
      let user  =await this.db.db.User.findOne({where:{username:request.body.username}})
-     console.log(user.dataValues);
+   //  console.log(user.dataValues);
      if(user!=null){
     let access_token= sign({user:user.dataValues},key)
     let role=1;
@@ -76,7 +76,7 @@ export default class UserController implements Controller {
       response.status(this.status).json({ success:false,message:"Tên đăng nhập hoặc mật khẩu không đúng"});
      }
     }catch(e){
-      console.log(e)
+      response.status(this.status).json({ success:false,message:"Tên đăng nhập hoặc mật khẩu không đúng"});
     }
 
   }

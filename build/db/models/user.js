@@ -14,6 +14,10 @@ exports.UserFactory = function (sequelize, DataTypes) {
     });
     User.associate = function (models) {
         // associations can be defined here
+        User.hasMany(models.Question, {
+            as: 'newTask',
+            foreignKey: 'userId',
+        });
     };
     return User;
 };

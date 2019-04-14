@@ -1,5 +1,11 @@
 import Sequelize from 'sequelize/index';
 import { UserFactory } from '../models/user';
+import { QuestionFactory } from './question';
+import { SubjectFactory } from './subject';
+import { QuestionAnwerFactory } from './question_answer';
+import { AnswerFacatory } from './answer';
+import { ExamFactory } from './exam';
+import { ExamQuestionFactory } from './examquestion';
  interface DbInterface {
   sequelize: Sequelize.Sequelize;
   Sequelize: Sequelize.SequelizeStatic;
@@ -14,7 +20,13 @@ export class Database{
   this.db={
     sequelize:this.sequelize,
     Sequelize,
-   User:UserFactory(this.sequelize,Sequelize)
+   User:UserFactory(this.sequelize,Sequelize),
+   QuestionAnswer:QuestionAnwerFactory(this.sequelize,Sequelize),
+   Question:QuestionFactory(this.sequelize,Sequelize),
+   Answer:AnswerFacatory(this.sequelize,Sequelize),
+   Subject:SubjectFactory(this.sequelize,Sequelize),
+   Exam  :ExamFactory(this.sequelize,Sequelize),
+   ExamQuestion:ExamQuestionFactory(this.sequelize,Sequelize)
   }
   Object.keys(this.db).forEach(async (modelName) => {
     if (this.db[modelName].associate) {
@@ -35,4 +47,5 @@ getInstance(){
   return this.db
 }
 }
+
 

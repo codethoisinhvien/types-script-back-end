@@ -10,7 +10,7 @@ export interface UserAttributes {
 
 }
 
-export interface UserInstance {
+export interface UserInstance extends Sequelize.Instance<UserAttributes >, UserAttributes{
     id: number;
     createdAt: Date;
     updatedAt: Date;
@@ -39,6 +39,11 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes:Sequelize.
 
     User.associate = function(models) {
         // associations can be defined here
+        User.hasMany(models.Question,{
+             as: 'newTask',
+             foreignKey: 'userId', 
+           
+        })
     };
 
     return User;

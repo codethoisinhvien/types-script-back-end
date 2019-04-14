@@ -5,13 +5,17 @@ export default class AccessToken{
     access= async (request: express.Request, response: express.Response,next:any)=>{
         
         let token:any= request.headers.authorization
-        token =token.split(' ')[1];
+     ;
       
         try{
+            if(token!=null){
+                token =token.split(' ')[1];
        let val = await verify(token,this.key);
 
        console.log(val);
        next()  
+        }
+        response.status(401).send({meassage:"Token không hợp lệ"})
         }catch(e){
 
         response.status(401).send({meassage:"Token không hợp lệ"})

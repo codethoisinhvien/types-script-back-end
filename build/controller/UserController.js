@@ -97,7 +97,7 @@ var UserController = /** @class */ (function () {
                                 first_name: request.body.first_name,
                                 last_name: request.body.last_name,
                                 birthday: request.body.birthday
-                            }, { where: 1 })];
+                            }, { where: { id: 1 } })];
                     case 2:
                         user = _b.sent();
                         console.log(user);
@@ -130,20 +130,25 @@ var UserController = /** @class */ (function () {
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.db.db.User.findOne({ where: { username: request.body.username } })];
+                        return [4 /*yield*/, this.db.db.User.findOne({ where: { username: request.body.username } })
+                            //  console.log(user.dataValues);
+                        ];
                     case 2:
                         user = _b.sent();
-                        console.log(user.dataValues);
+                        //  console.log(user.dataValues);
                         if (user != null) {
                             access_token = jsonwebtoken_1.sign({ user: user.dataValues }, key);
                             role = 1;
                             // let name=giang
                             response.status(this.status).json({ access_token: access_token, role: role, user: user.dataValues.username });
                         }
+                        else {
+                            response.status(this.status).json({ success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" });
+                        }
                         return [3 /*break*/, 4];
                     case 3:
                         e_3 = _b.sent();
-                        console.log(e_3);
+                        response.status(this.status).json({ success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" });
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }

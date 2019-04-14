@@ -7,6 +7,7 @@ export class UserApi implements Api {
   router = express.Router();
   controller = new UserController();
   access = new AccessToken()
+  // thieu email
   constructor() {
     this.intializeRoutes();
 
