@@ -20,8 +20,14 @@ export interface ExamQuestionInstance {
 
 export const ExamQuestionFactory= (sequelize: Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
     var examQuestion = sequelize.define('examQuestion', {
-        exam_id: DataTypes.INTEGER,
-        question_id: DataTypes.INTEGER,
+        exam_id: {
+            type:DataTypes.INTEGER,
+            primaryKey: true
+        },
+        question_id:{
+            type:DataTypes.INTEGER,
+            primaryKey: true
+        },
         score: DataTypes.INTEGER
     });
      examQuestion.removeAttribute('id')

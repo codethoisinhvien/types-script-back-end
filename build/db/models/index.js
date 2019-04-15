@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __importDefault(require("sequelize/index"));
-var user_1 = require("../models/user");
+var user_1 = require("./user");
 var question_1 = require("./question");
 var subject_1 = require("./subject");
 var question_answer_1 = require("./question_answer");

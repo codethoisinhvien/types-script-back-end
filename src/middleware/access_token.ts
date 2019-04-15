@@ -9,7 +9,7 @@ export default class AccessToken{
       
         try{
             if(token!=null){
-                token =token.split(' ')[1];
+              //  token =token.split(' ')[1];
        let val = await verify(token,this.key);
 
        console.log(val);

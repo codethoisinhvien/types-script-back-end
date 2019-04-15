@@ -10,10 +10,10 @@ export default class SubjectController implements Controller {
     public status = 200
     public db = Database.setInstance(null);
     create = async(request: express.Request, response: express.Response)=>{
+        console.log(request.body)
+        let data:SubjectAttributes=request.body
         try{
-     let subject  =await this.db.db.Subject.create({
-         name:"cnpm2"
-     })
+     let subject  =await this.db.db.Subject.create(data)
      this.data={success:true,data: subject.dataValues.id}
     }catch(e){
 
@@ -23,8 +23,16 @@ export default class SubjectController implements Controller {
     response.status(this.status).json(this.data)
     }
     getlist = async(request: express.Request, response: express.Response)=>{
+        console.log(request.query)
+        let page = request.query.page||1;
+        let limit =20;
+        let offset=limit*(page-1)
         try{
-          let subjects =await this.db.db.Subject.findAll({ attributes: ['id', 'name']});
+          let subjects =await this.db.db.Subject.findAll({ attributes: ['id', 'name'],
+          limit: limit,
+          offset: offset,
+          $sort: { id: 1 }
+    });
           this.data={ success:true,subjects} 
           console.log(subjects)
         }catch(e){

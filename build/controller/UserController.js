@@ -45,35 +45,71 @@ var UserController = /** @class */ (function () {
         this.status = 200;
         this.db = models_1.Database.setInstance(null);
         this.create = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, username, password, first_name, last_name, user, e_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var userdata, user, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         //vadidate
                         console.log(request.body);
-                        _a = request.body, username = _a.username, password = _a.password, first_name = _a.first_name, last_name = _a.last_name;
-                        if (!true) return [3 /*break*/, 4];
-                        _b.label = 1;
+                        if (!true) return [3 /*break*/, 5];
+                        _a.label = 1;
                     case 1:
-                        _b.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.db.db.User.create(request.body)];
+                        _a.trys.push([1, 3, 4, 5]);
+                        userdata = request.body;
+                        return [4 /*yield*/, this.db.db.User.create(userdata)];
                     case 2:
-                        user = _b.sent();
+                        user = _a.sent();
                         this.data = {
                             success: true,
                             message: "Đăng kí thành công"
                         };
+                        return [3 /*break*/, 5];
+                    case 3:
+                        e_1 = _a.sent();
+                        console.log(e_1);
+                        if (e_1.errors != null) {
+                            this.data = {
+                                success: true,
+                                message: "Thông tin chưa đúng"
+                            };
+                        }
+                        else {
+                            switch (e_1.parent.code) {
+                                case 'ER_DUP_ENTRY':
+                                    this.data = {
+                                        success: false,
+                                        message: "Tài khoản đã tồn tại"
+                                    };
+                                    break;
+                            }
+                        }
+                        return [3 /*break*/, 5];
+                    case 4: return [7 /*endfinally*/];
+                    case 5:
+                        response.status(this.status).json(this.data);
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        this.get = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
+            var token, data, user, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        token = request.headers.authorization;
+                        data = jsonwebtoken_1.verify(token, key);
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.db.db.User.findOne({ attributes: ['username', 'email', 'birthday', 'sex', 'createdAt'] }, { where: { id: data.user.id } })];
+                    case 2:
+                        user = _a.sent();
+                        console.log(user);
+                        this.data = { success: true, user: user };
                         return [3 /*break*/, 4];
                     case 3:
-                        e_1 = _b.sent();
-                        switch (e_1.parent.code) {
-                            case 'ER_DUP_ENTRY':
-                                this.data = {
-                                    success: false,
-                                    message: "Tài khoản đã tồn tại"
-                                };
-                                break;
-                        }
+                        error_1 = _a.sent();
+                        console.log(error_1);
                         return [3 /*break*/, 4];
                     case 4:
                         response.status(this.status).json(this.data);
@@ -81,25 +117,20 @@ var UserController = /** @class */ (function () {
                 }
             });
         }); };
-        this.get = function (request, response) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            return [2 /*return*/];
-        }); }); };
         this.updateBaseInformation = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, first_name, last_name, birthday, user, e_2;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var userdata, token, data, user, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        _a = request.body, first_name = _a.first_name, last_name = _a.last_name, birthday = _a.birthday;
-                        _b.label = 1;
+                        userdata = request.body;
+                        _a.label = 1;
                     case 1:
-                        _b.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.db.db.User.update({
-                                first_name: request.body.first_name,
-                                last_name: request.body.last_name,
-                                birthday: request.body.birthday
-                            }, { where: { id: 1 } })];
+                        _a.trys.push([1, 3, , 4]);
+                        token = request.headers.authorization;
+                        data = jsonwebtoken_1.verify(token, key);
+                        return [4 /*yield*/, this.db.db.User.update(userdata, { where: { id: data.user.id } })];
                     case 2:
-                        user = _b.sent();
+                        user = _a.sent();
                         console.log(user);
                         if (user != null) {
                             // let name=giang
@@ -107,7 +138,7 @@ var UserController = /** @class */ (function () {
                         }
                         return [3 /*break*/, 4];
                     case 3:
-                        e_2 = _b.sent();
+                        e_2 = _a.sent();
                         console.log(e_2);
                         response.status(this.status).json({ success: false, message: "Thay đổi thông tin thất bại" });
                         return [3 /*break*/, 4];
@@ -130,27 +161,66 @@ var UserController = /** @class */ (function () {
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.db.db.User.findOne({ where: { username: request.body.username } })
-                            //  console.log(user.dataValues);
-                        ];
+                        return [4 /*yield*/, this.db.db.User.findOne({ where: { username: request.body.username } })];
                     case 2:
                         user = _b.sent();
-                        //  console.log(user.dataValues);
+                        console.log(user.dataValues);
                         if (user != null) {
                             access_token = jsonwebtoken_1.sign({ user: user.dataValues }, key);
-                            role = 1;
+                            role = user.dataValues.role;
                             // let name=giang
-                            response.status(this.status).json({ access_token: access_token, role: role, user: user.dataValues.username });
+                            this.data = { access_token: access_token, role: role, user: user.dataValues.username };
                         }
                         else {
-                            response.status(this.status).json({ success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" });
+                            this.data = { success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" };
                         }
                         return [3 /*break*/, 4];
                     case 3:
                         e_3 = _b.sent();
-                        response.status(this.status).json({ success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" });
+                        this.data = { success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" };
                         return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                    case 4:
+                        response.status(this.status).json(this.data);
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        this.changePassword = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
+            var datas, token, data, user, user_1, e_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log(request.headers.authorization);
+                        datas = request.body;
+                        token = request.headers.authorization;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 6, , 7]);
+                        data = jsonwebtoken_1.verify(token, key);
+                        return [4 /*yield*/, this.db.db.User.findOne({ where: { id: data.user.id } })];
+                    case 2:
+                        user = _a.sent();
+                        console.log();
+                        console.log(datas.oldpassword == user.dataValues.password);
+                        if (!(datas.oldpassword == user.dataValues.password)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.db.db.User.update({ password: datas.newpassword }, { where: { id: data.user.id } })];
+                    case 3:
+                        user_1 = _a.sent();
+                        this.data = { success: true, message: "Thay đổi mật khẩu thành công" };
+                        return [3 /*break*/, 5];
+                    case 4:
+                        this.data = { success: false, message: "Mật khẩu cũ không đúng " };
+                        _a.label = 5;
+                    case 5: return [3 /*break*/, 7];
+                    case 6:
+                        e_4 = _a.sent();
+                        console.log(e_4);
+                        this.status = 401;
+                        this.data = { success: false, message: "Không hợp lệ" };
+                        return [3 /*break*/, 7];
+                    case 7:
+                        response.status(this.status).json(this.data);
+                        return [2 /*return*/];
                 }
             });
         }); };

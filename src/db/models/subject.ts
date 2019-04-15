@@ -18,7 +18,8 @@ export const SubjectFactory= (sequelize: Sequelize.Sequelize, DataTypes:Sequeliz
     var subject = sequelize.define('subject', {
         name: {
             type:DataTypes.STRING,
-            unique:true
+            unique:true,
+            allowNull: false
         }
     });
 
@@ -28,6 +29,11 @@ export const SubjectFactory= (sequelize: Sequelize.Sequelize, DataTypes:Sequeliz
      
             foreignKey: 'subject_id', 
         })
+        subject.hasMany(models.Exam,{
+            // associations can be defined here
+      
+             foreignKey: 'subject_id', 
+         })
     };
 
     return subject;

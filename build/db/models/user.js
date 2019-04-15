@@ -1,23 +1,37 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserFactory = function (sequelize, DataTypes) {
-    var User = sequelize.define('User', {
+    var user = sequelize.define('user', {
+        first_name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        last_name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         username: {
             type: DataTypes.STRING,
             unique: true
         },
         password: DataTypes.STRING,
-        first_name: DataTypes.STRING,
-        last_name: DataTypes.STRING,
+        birthday: DataTypes.DATE,
         level: DataTypes.INTEGER,
-        birthday: DataTypes.DATE
+        sex: DataTypes.ENUM('male', 'female'),
+        role: {
+            type: DataTypes.INTEGER,
+            defaultValue: 1
+        }
     });
-    User.associate = function (models) {
+    user.associate = function (models) {
         // associations can be defined here
-        User.hasMany(models.Question, {
-            as: 'newTask',
-            foreignKey: 'userId',
+        user.hasMany(models.Question, {
+            foreignKey: 'user_id',
         });
     };
-    return User;
+    return user;
 };

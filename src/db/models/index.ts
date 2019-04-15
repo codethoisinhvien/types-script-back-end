@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize/index';
-import { UserFactory } from '../models/user';
+import { UserFactory } from './user';
 import { QuestionFactory } from './question';
 import { SubjectFactory } from './subject';
 import { QuestionAnwerFactory } from './question_answer';

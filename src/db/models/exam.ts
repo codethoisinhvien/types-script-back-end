@@ -21,10 +21,16 @@ export interface ExamInstance {
 
 export const ExamFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
     var exam = sequelize.define('exam', {
-        name: DataTypes.STRING,
+        name: 
+        {type:DataTypes.STRING,
+        unique:true
+        },
         score: DataTypes.INTEGER,
         timedo: DataTypes.INTEGER,
-        status: DataTypes.BOOLEAN
+        status: {
+            type:DataTypes.BOOLEAN,
+            defaultValue:false
+        }
     });
 
     exam.associate = function (models) {
@@ -34,6 +40,7 @@ export const ExamFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
             through: {
                 model: models.ExamQuestion,
                 unique: false
+                
             }
         })
     };

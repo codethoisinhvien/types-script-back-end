@@ -29,8 +29,10 @@ var UserApi = /** @class */ (function () {
             .delete(this.access.adminAccess, this.controller.delete)
             .patch(this.access.adminAccess, this.controller.updateRole);
         this.router.route('/profile')
-            .get(this.access.access, this.controller.get)
-            .put(this.access.access, this.controller.updateBaseInformation);
+            .get(this.controller.get)
+            .put(this.controller.updateBaseInformation);
+        this.router.route('/password')
+            .put(this.controller.changePassword);
     };
     ;
     return UserApi;

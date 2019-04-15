@@ -1,50 +1,68 @@
 import *as Sequelize from 'sequelize/index';
 
 export interface UserAttributes {
-    username ? : string;
-    password ? : string;
     first_name ? : string;
     last_name ? : string;
-    level ? : number
+    username ? : string;
+    password ? : string;
+    email?:string
     birthday ? : Date;
-
+    sex:string
+    level ? : number;
+    role?: number
 }
 
-export interface UserInstance extends Sequelize.Instance<UserAttributes >, UserAttributes{
+export interface UserInstance {
     id: number;
     createdAt: Date;
     updatedAt: Date;
-
-    username: string;
-    password: string;
+    email?:string
     first_name: string;
     last_name: string;
-    level: number;
+    username: string;
+    password: string;
+    sex:string
     birthday: Date;
-
+    level: number
+    role?: number
 }
 
 export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
-    var User = sequelize.define('User', {
-        username:{
+    var user = sequelize.define('user', {
+        first_name: {
             type:DataTypes.STRING,
-            unique: true
-        },
+            allowNull: false
+           },
+        last_name:{
+            type:DataTypes.STRING,
+            allowNull: false
+           },
+        email:{
+            type:DataTypes.STRING,
+            allowNull: false
+           },
+        username:{
+         type:DataTypes.STRING,
+         unique:true
+        } ,
         password: DataTypes.STRING,
-        first_name: DataTypes.STRING,
-        last_name: DataTypes.STRING,
+        birthday: DataTypes.DATE,
         level: DataTypes.INTEGER,
-        birthday: DataTypes.DATE
+        sex:DataTypes.ENUM('male','female'),
+        role:{
+          type: DataTypes.INTEGER,
+          defaultValue:1
+        }
     });
 
-    User.associate = function(models) {
+    user.associate = function(models) {
         // associations can be defined here
-        User.hasMany(models.Question,{
-             as: 'newTask',
-             foreignKey: 'userId', 
-           
-        })
+        user.hasMany(models.Question,{
+            
+            foreignKey: 'user_id', 
+          
+       })
     };
 
-    return User;
+    return user;
 };
