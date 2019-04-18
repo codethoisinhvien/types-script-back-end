@@ -62,6 +62,9 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes:Sequelize.
             foreignKey: 'user_id', 
           
        })
+       user.hasMany(models.Task,{
+         foreignKey: 'user_id', 
+       })
     };
 
     return user;

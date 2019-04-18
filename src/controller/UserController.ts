@@ -90,10 +90,14 @@ export default class UserController implements Controller {
       let user = await this.db.db.User.findOne({ where: { username: request.body.username } })
       console.log(user.dataValues);
       if (user != null) {
+        if(user.dataValues.password==request.body.password){
         let access_token = sign({ user: user.dataValues }, key)
         let role = user.dataValues.role;
         // let name=giang
         this.data = { access_token, role, user: user.dataValues.username };
+        }else{
+          this.data = { success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" };
+        }
       } else {
 
         this.data = { success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" };

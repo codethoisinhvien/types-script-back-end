@@ -166,10 +166,15 @@ var UserController = /** @class */ (function () {
                         user = _b.sent();
                         console.log(user.dataValues);
                         if (user != null) {
-                            access_token = jsonwebtoken_1.sign({ user: user.dataValues }, key);
-                            role = user.dataValues.role;
-                            // let name=giang
-                            this.data = { access_token: access_token, role: role, user: user.dataValues.username };
+                            if (user.dataValues.password == request.body.password) {
+                                access_token = jsonwebtoken_1.sign({ user: user.dataValues }, key);
+                                role = user.dataValues.role;
+                                // let name=giang
+                                this.data = { access_token: access_token, role: role, user: user.dataValues.username };
+                            }
+                            else {
+                                this.data = { success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" };
+                            }
                         }
                         else {
                             this.data = { success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" };

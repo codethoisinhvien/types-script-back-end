@@ -46,6 +46,8 @@ var question_answer_1 = require("./question_answer");
 var answer_1 = require("./answer");
 var exam_1 = require("./exam");
 var examquestion_1 = require("./examquestion");
+var task_1 = require("./task");
+var taskexamquestion_1 = require("./taskexamquestion");
 var Database = /** @class */ (function () {
     function Database(sequelizeConfig) {
         var _this = this;
@@ -55,12 +57,14 @@ var Database = /** @class */ (function () {
             sequelize: this.sequelize,
             Sequelize: index_1.default,
             User: user_1.UserFactory(this.sequelize, index_1.default),
-            QuestionAnswer: question_answer_1.QuestionAnwerFactory(this.sequelize, index_1.default),
+            QuestionAnswer: question_answer_1.QuestionAnswerFactory(this.sequelize, index_1.default),
             Question: question_1.QuestionFactory(this.sequelize, index_1.default),
             Answer: answer_1.AnswerFacatory(this.sequelize, index_1.default),
             Subject: subject_1.SubjectFactory(this.sequelize, index_1.default),
             Exam: exam_1.ExamFactory(this.sequelize, index_1.default),
-            ExamQuestion: examquestion_1.ExamQuestionFactory(this.sequelize, index_1.default)
+            ExamQuestion: examquestion_1.ExamQuestionFactory(this.sequelize, index_1.default),
+            Task: task_1.TaskFactory(this.sequelize, index_1.default),
+            TaskExamQuestion: taskexamquestion_1.TaskExamQuestionFactory(this.sequelize, index_1.default)
         };
         Object.keys(this.db).forEach(function (modelName) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {

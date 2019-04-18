@@ -2,10 +2,12 @@ import Sequelize from 'sequelize/index';
 import { UserFactory } from './user';
 import { QuestionFactory } from './question';
 import { SubjectFactory } from './subject';
-import { QuestionAnwerFactory } from './question_answer';
+import { QuestionAnswerFactory } from './question_answer';
 import { AnswerFacatory } from './answer';
 import { ExamFactory } from './exam';
 import { ExamQuestionFactory } from './examquestion';
+import { TaskFactory } from './task';
+import { TaskExamQuestionFactory } from './taskexamquestion';
  interface DbInterface {
   sequelize: Sequelize.Sequelize;
   Sequelize: Sequelize.SequelizeStatic;
@@ -21,12 +23,14 @@ export class Database{
     sequelize:this.sequelize,
     Sequelize,
    User:UserFactory(this.sequelize,Sequelize),
-   QuestionAnswer:QuestionAnwerFactory(this.sequelize,Sequelize),
+   QuestionAnswer:QuestionAnswerFactory(this.sequelize,Sequelize),
    Question:QuestionFactory(this.sequelize,Sequelize),
    Answer:AnswerFacatory(this.sequelize,Sequelize),
    Subject:SubjectFactory(this.sequelize,Sequelize),
    Exam  :ExamFactory(this.sequelize,Sequelize),
-   ExamQuestion:ExamQuestionFactory(this.sequelize,Sequelize)
+   ExamQuestion:ExamQuestionFactory(this.sequelize,Sequelize),
+   Task:TaskFactory(this.sequelize,Sequelize),
+   TaskExamQuestion:TaskExamQuestionFactory(this.sequelize,Sequelize)
   }
   Object.keys(this.db).forEach(async (modelName) => {
     if (this.db[modelName].associate) {
