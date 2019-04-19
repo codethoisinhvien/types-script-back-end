@@ -31,7 +31,10 @@ export const ExamFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
             type:DataTypes.BOOLEAN,
             defaultValue:false
         }
-    });
+    },{
+        charset: 'utf8',
+        collate: 'utf8_unicode_ci'
+      });
 
     exam.associate = function (models) {
         // associations can be defined here
@@ -42,6 +45,9 @@ export const ExamFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
                 unique: false
                 
             }
+        })
+        exam.hasMany(models.Task,{
+            foreignKey: 'exam_id',
         })
     };
 

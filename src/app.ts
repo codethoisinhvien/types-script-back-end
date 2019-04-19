@@ -7,7 +7,8 @@ import Api from './interface/BaseApi'
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const sequelizeConfig = require('./db/config/config.json');
-const db :Database=Database.setInstance(sequelizeConfig);
+console.log(sequelizeConfig.development)
+const db :Database=Database.setInstance(sequelizeConfig.development);
 
 const Op = Sequelize.Op;
 

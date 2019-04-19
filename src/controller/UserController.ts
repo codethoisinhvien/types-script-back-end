@@ -43,7 +43,7 @@ export default class UserController implements Controller {
 
 
 
-      } finally { }
+      } 
     }
 
 
@@ -54,7 +54,7 @@ export default class UserController implements Controller {
     let token: any = request.headers.authorization;
     let data: any = verify(token, key);
     try {
-      let user = await this.db.db.User.findOne({ attributes: ['username','email','birthday','sex','createdAt']},{where:{id:data.user.id}});
+      let user = await this.db.db.User.findOne({ attributes: ['username','email','birthday','sex','createdAt','first_name','last_name']},{where:{id:data.user.id}});
       console.log(user)
       this.data={success:true,user}
     } catch (error) {
@@ -94,7 +94,7 @@ export default class UserController implements Controller {
         let access_token = sign({ user: user.dataValues }, key)
         let role = user.dataValues.role;
         // let name=giang
-        this.data = { access_token, role, user: user.dataValues.username };
+        this.data = { success: true,access_token, role, user: user.dataValues.username };
         }else{
           this.data = { success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" };
         }

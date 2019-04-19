@@ -16,7 +16,8 @@ exports.UserFactory = function (sequelize, DataTypes) {
         },
         username: {
             type: DataTypes.STRING,
-            unique: true
+            unique: true,
+            allowNull: false
         },
         password: DataTypes.STRING,
         birthday: DataTypes.DATE,

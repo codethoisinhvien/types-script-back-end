@@ -16,5 +16,10 @@ sequelize model:create --name user  --attributes first_name:string,last_name:str
 sequelize model:create --name task  --attributes user_id:interger,exam_id:interger,score:interger,expiresIn:timestamp
 //task_exam_question 
 sequelize model:create --name task_exam_question  --attributes task_id:interger,question_id:interger,answer_id:interger
-
+// xóa các dữ liệu tạo 
+sequelize db:seed:undo:all
+// tao đữ liệu 
+sequelize db:seed:all
+// tạo seeder 1 bảng 
+sequelize seed:generate --name  subject
 

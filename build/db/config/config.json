@@ -1,10 +1,32 @@
- {
+{
+  "development": {
     "database": "demo",
     "username": "root",
     "password": "13081999",
+    "dialect": "mysql",
     "params": {
       "host": "localhost",
       "dialect": "mysql",
-      "operatorsAliases": false
+      "operatorsAliases": false,
+    
+      "charset": "utf8",
+      "collate": "utf8_general_ci", 
+      "timestamps": "true"
+      
     }
+  },
+  "test": {
+    "username": "root",
+    "password": "13081999",
+    "database": "demo",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "13081999",
+    "database": "demo",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   }
+}

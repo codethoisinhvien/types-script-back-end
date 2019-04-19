@@ -51,10 +51,10 @@ var UserController = /** @class */ (function () {
                     case 0:
                         //vadidate
                         console.log(request.body);
-                        if (!true) return [3 /*break*/, 5];
+                        if (!true) return [3 /*break*/, 4];
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 3, 4, 5]);
+                        _a.trys.push([1, 3, , 4]);
                         userdata = request.body;
                         return [4 /*yield*/, this.db.db.User.create(userdata)];
                     case 2:
@@ -63,7 +63,7 @@ var UserController = /** @class */ (function () {
                             success: true,
                             message: "Đăng kí thành công"
                         };
-                        return [3 /*break*/, 5];
+                        return [3 /*break*/, 4];
                     case 3:
                         e_1 = _a.sent();
                         console.log(e_1);
@@ -83,9 +83,8 @@ var UserController = /** @class */ (function () {
                                     break;
                             }
                         }
-                        return [3 /*break*/, 5];
-                    case 4: return [7 /*endfinally*/];
-                    case 5:
+                        return [3 /*break*/, 4];
+                    case 4:
                         response.status(this.status).json(this.data);
                         return [2 /*return*/];
                 }
@@ -101,7 +100,7 @@ var UserController = /** @class */ (function () {
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.db.db.User.findOne({ attributes: ['username', 'email', 'birthday', 'sex', 'createdAt'] }, { where: { id: data.user.id } })];
+                        return [4 /*yield*/, this.db.db.User.findOne({ attributes: ['username', 'email', 'birthday', 'sex', 'createdAt', 'first_name', 'last_name'] }, { where: { id: data.user.id } })];
                     case 2:
                         user = _a.sent();
                         console.log(user);
@@ -170,7 +169,7 @@ var UserController = /** @class */ (function () {
                                 access_token = jsonwebtoken_1.sign({ user: user.dataValues }, key);
                                 role = user.dataValues.role;
                                 // let name=giang
-                                this.data = { access_token: access_token, role: role, user: user.dataValues.username };
+                                this.data = { success: true, access_token: access_token, role: role, user: user.dataValues.username };
                             }
                             else {
                                 this.data = { success: false, message: "Tên đăng nhập hoặc mật khẩu không đúng" };

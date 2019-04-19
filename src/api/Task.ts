@@ -15,8 +15,8 @@ export class TaskApi implements Api {
   }
   intializeRoutes() {
 
-    this.router.route(this.path+'/:id')
-      .get(this.controller.create)
+    this.router.route(this.path)
+      .post(this.controller.create)
       .put(this.controller.update)
   }
 }

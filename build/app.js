@@ -9,7 +9,8 @@ var models_1 = require("./db/models");
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var sequelizeConfig = require('./db/config/config.json');
-var db = models_1.Database.setInstance(sequelizeConfig);
+console.log(sequelizeConfig.development);
+var db = models_1.Database.setInstance(sequelizeConfig.development);
 var Op = sequelize_1.default.Op;
 var PORT = process.env.PORT || 4201;
 var App = /** @class */ (function () {

@@ -1,11 +1,18 @@
 {
   "development": {
+    "database": "demo",
     "username": "root",
     "password": "13081999",
-    "database": "demo",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "port":"3306"
+    "params": {
+      "host": "localhost",
+      "dialect": "mysql",
+      "operatorsAliases": false,
+    
+      "charset": "utf8",
+      "collate": "utf8_general_ci", 
+      "timestamps": "true"
+      
+    }
   },
   "test": {
     "username": "root",

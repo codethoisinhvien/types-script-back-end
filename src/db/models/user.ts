@@ -43,7 +43,8 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes:Sequelize.
            },
         username:{
          type:DataTypes.STRING,
-         unique:true
+         unique:true,
+         allowNull:false
         } ,
         password: DataTypes.STRING,
         birthday: DataTypes.DATE,
