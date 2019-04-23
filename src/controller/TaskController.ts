@@ -35,7 +35,7 @@ export default class TaskController implements Controller {
             })
            let task = await this.db.db.Task.create({user_id:data.user.id,exam_id:exam.dataValues.id})
             
-            this.data = {exam,task_id:task.dataValues.id}
+            this.data = {success:true,data:{exam,task_id:task.dataValues.id}}
         } catch (error) {
             console.log(error)
         }

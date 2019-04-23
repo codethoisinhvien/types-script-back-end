@@ -15,6 +15,16 @@ module.exports = {
           createdAt: Sequelize.literal('NOW()'),
           updatedAt: Sequelize.literal('NOW()'),
         },
+        {
+          id:2,
+          name:"Đề số 2",	
+          score:100,
+          timedo:60,
+          status:true,
+          subject_id:1,	
+          createdAt: Sequelize.literal('NOW()'),
+          updatedAt: Sequelize.literal('NOW()'),
+        },
         
       ],
       {}

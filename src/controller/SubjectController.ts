@@ -41,6 +41,19 @@ export default class SubjectController implements Controller {
         }
         response.status(this.status).json(this.data)
     }
+    getExamsOfSubject= async (request: express.Request, response: express.Response)=>{
+        console.log(request.params)
+        try {
+            let subject_id = request.params.id 
+            let listExam= await this.db.db.Exam.findAll({attributes: ['id','name','score','timedo'],where:{subject_id:subject_id}})
+            console.log(listExam)
+            this.data= {success:true,data:listExam}
+        } catch (error) {
+            this.data= {success:false,message:'Có lỗi xảy ra'}
+        }
+       
+        response.status(this.status).json(this.data)
+    }
 
 
 

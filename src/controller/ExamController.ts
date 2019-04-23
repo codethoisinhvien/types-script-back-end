@@ -77,5 +77,9 @@ export default class ExamController implements Controller {
         response.status(this.status).json(this.data)
 
     }
+    getExamsOfSubject= async (request: express.Request, response: express.Response)=>{
+        console.log(request.params)
+        response.status(this.status).json(this.data)
+    }
 
 }

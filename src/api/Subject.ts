@@ -18,6 +18,9 @@ export class SubjectApi implements Api {
     this.router.route(this.path)
       .post(this.controller.create)
       .get(this.controller.getlist);
+
+    this.router.route(this.path+"/:id")
+    .get(this.controller.getExamsOfSubject)
   }
 }
 

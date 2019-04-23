@@ -27,6 +27,7 @@ export const ExamFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
         },
         score: DataTypes.INTEGER,
         timedo: DataTypes.INTEGER,
+        NoQuestions:DataTypes.INTEGER,
         status: {
             type:DataTypes.BOOLEAN,
             defaultValue:false
