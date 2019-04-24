@@ -17,7 +17,11 @@ export class TaskApi implements Api {
 
     this.router.route(this.path)
       .post(this.controller.create)
+      .get(this.controller.getList)
+    this.router.route(this.path+"/:id") 
       .put(this.controller.update)
+      .delete(this.controller.delete)
+      .get(this.controller.getInformation)
   }
 }
 

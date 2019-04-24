@@ -34,6 +34,7 @@ export const SubjectFactory= (sequelize: Sequelize.Sequelize, DataTypes:Sequeliz
       
              foreignKey: 'subject_id', 
          })
+         
     };
 
     return subject;

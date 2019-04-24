@@ -25,15 +25,23 @@ export const TaskFactory = (sequelize: Sequelize.Sequelize, DataTypes:Sequelize.
         user_id: DataTypes.INTEGER,
         exam_id: DataTypes.INTEGER,
         score: DataTypes.INTEGER,
-        expiresIn: DataTypes.TIME
+        expiresIn: DataTypes.DATE
     });
 
     task.associate = function(models) {
        
         
-        task.hasMany(models.TaskExamQuestion, {
+        task.belongsToMany(models.Question, {
             foreignKey: 'task_id',
+            through: {
+                model: models.TaskExamQuestion,
+                unique: false,
+                
+        }
             
+        })
+        task.belongsTo(models.Exam,{
+            foreignKey: "exam_id"
         })
         
         

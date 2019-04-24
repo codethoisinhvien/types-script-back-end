@@ -39,6 +39,7 @@ export const QuestionAnswerFactory= (sequelize: Sequelize.Sequelize, DataTypes:S
         question_answer.hasMany(models.TaskExamQuestion,{
             foreignKey:'question_id'
            })
+        
     };
     question_answer.removeAttribute('id')
     return question_answer;

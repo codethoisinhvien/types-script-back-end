@@ -17,7 +17,7 @@ export class EXamApi implements Api {
     this.router.route(this.path)
     .post(this.controller.create)
     .get(this.controller.get)
-  this.router.route('/exams/:id').put(this.controller.updateQuestion)
+  this.router.route('/exams/:id').put(this.access.access,this.controller.updateQuestion)
     
 
    

@@ -31,6 +31,7 @@ export const AnswerFacatory= (sequelize: Sequelize.Sequelize, DataTypes:Sequeliz
         }
 
     })
+    
     };
 
     return answer;

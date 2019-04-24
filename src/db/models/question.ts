@@ -43,7 +43,18 @@ export const QuestionFactory = (sequelize: Sequelize.Sequelize, DataTypes:Sequel
             model: models.ExamQuestion,
             unique: false
         }
+    
     })
+    question.belongsToMany(models.Task,{
+        foreignKey: 'question_id',
+        through: {
+            model: models.TaskExamQuestion,
+            unique: false,
+            
+    }
+}
+    )
+    
     };
 
     return question;

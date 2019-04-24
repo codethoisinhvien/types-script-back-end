@@ -43,12 +43,16 @@ export const ExamFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
             foreignKey: 'exam_id',
             through: {
                 model: models.ExamQuestion,
+                
                 unique: false
                 
             }
         })
         exam.hasMany(models.Task,{
             foreignKey: 'exam_id',
+        })
+        exam.belongsTo(models.Subject,{
+            foreignKey: 'subject_id',
         })
     };
 
