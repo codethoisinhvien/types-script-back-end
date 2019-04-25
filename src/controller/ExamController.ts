@@ -12,7 +12,7 @@ export default class ExamController implements Controller {
         try {
             let data = request.body
             let exam = await this.db.db.Exam.create(data);
-            this.data = exam
+            this.data = {success: true,exam}
         } catch (e) {
             this.data = { success: false, message: "Không thể tao môn học" }
         }
@@ -46,10 +46,11 @@ export default class ExamController implements Controller {
         response.status(this.status).json(this.data)
     }
     get = async (request: express.Request, response: express.Response) => {
-        console.log(request.body)
+        
+        let exm_id = request.params.id
         try {
             let exam = await this.db.db.Exam.findOne({
-                where: { id: 1 },
+                where: { id: exm_id},
                 attributes: ['id', 'name', 'timedo'],
                
                 include: [{
@@ -70,7 +71,7 @@ export default class ExamController implements Controller {
             })
             console.log(exam)
             
-            this.data = exam
+            this.data = {success:true,exam}
         } catch (error) {
             console.log(error)
         }
@@ -80,6 +81,19 @@ export default class ExamController implements Controller {
     getExamsOfSubject= async (request: express.Request, response: express.Response)=>{
         console.log(request.params)
         response.status(this.status).json(this.data)
+    }
+    delete = async  (request: express.Request, response: express.Response)=>{
+        console.log(request.params.id)
+        let exam_id = request.params.id
+         try {
+             let d = await this.db.db.ExamQuestion.destroy({where:{exam_id}})
+             console.log(d);
+             let d2 =  await this.db.db.Exam.destroy({where:{id:exam_id}})
+             this.data= {success:true,d,d2}
+         } catch (error) {
+             console.log(error)
+         }
+         response.status(this.status).json(this.data)
     }
 
 }

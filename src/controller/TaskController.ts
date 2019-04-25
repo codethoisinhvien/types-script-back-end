@@ -3,6 +3,7 @@ import { Database } from '../db/models';
 import * as express from 'express';
 import Controller from '../interface/BaseController'
 import { verify } from 'jsonwebtoken';
+import { where } from 'sequelize/types';
 
 export default class TaskController implements Controller {
     public data = {}
@@ -49,12 +50,13 @@ export default class TaskController implements Controller {
         console.log(request.params)
         // kiem tra nguoi dung trong bang task
         let data = {
-            task_id: request.params.id,
+            task_id: Number(request.params.id),
             question_id: request.body.question_id,
             answer_id: request.body.answer_id
         }
         console.log(data)
         try {
+            
             let answerUser = await this.db.db.TaskExamQuestion.upsert(data);
             console.log(answerUser)
             this.data = { success: true, status: answerUser }
@@ -72,7 +74,18 @@ export default class TaskController implements Controller {
         console.log(Date.now())
         try {
             let cf = await this.db.db.Task.update({ expiresIn: Date.now() }, { where: { id: task_id } })
-            this.data = { success: true, cf }
+            
+            let query = "SELECT SUM(score) as b FROM ((taskExamQuestions INNER JOIN question_answers ON taskExamQuestions.question_id=question_answers.question_id AND taskExamQuestions.answer_id=question_answers.answer_id)INNER JOIN examQuestions ON examQuestions.question_id=taskExamQuestions.question_id)WHERE taskExamQuestions.task_id ="+task_id+ "&& question_answers.right=true"
+  
+            let answer = await this.db.db.sequelize.query(query,{type: this.db.db.sequelize.QueryTypes.SELECT});
+            console.log(answer[0])
+            let score = answer[0].b||0
+       
+             let a = await this.db.db.Task.update({score:score},{where:{id:task_id}})
+          console.log(a)
+            this.data = { success: true, score }
+            
+    
         } catch (error) {
             console.log(error)
         }
@@ -87,7 +100,7 @@ export default class TaskController implements Controller {
 
             let data: any = verify(token, "phongthien");
             let listTask = await this.db.db.Task.findAll({
-                where: { user_id: data.user.id },
+                where: { user_id: data.user.id ,score:{[this.db.db.Sequelize.Op.ne]: null} },
                 attributes: ["id", "exam_id", "expiresIn", "score", "createdAt"],
                 order: [['id', 'DESC']],
                 include: [
@@ -128,48 +141,49 @@ export default class TaskController implements Controller {
 
                         model: this.db.db.Exam,
                         attributes: ['name'],
-                        
+
                         include: [{
                             model: this.db.db.Question,
-                            
-                            through: { 
-                                attributes: [] ,
-                               
+
+                            through: {
+                                attributes: [],
+
                             },
                             include: [
-                                {model:this.db.db.Task,
-                                    through: { 
-                                        attributes: ['answer_id'] ,
-                                       
+                                {
+                                    model: this.db.db.Task,
+                                    through: {
+                                        attributes: ['answer_id'],
+
                                     },
-                                    where :{id:id},
-                                    required:false,
+                                    where: { id: id },
+                                    required: false,
                                     attributes: ['id'],
-                                   
+
                                 },
-                                
+
                                 {
                                     model: this.db.db.Answer,
-                                    through: { 
-                                        attributes: ['right'] ,
-                                       
+                                    through: {
+                                        attributes: ['right'],
+
                                     },
-                                    attributes: ['id','content'],
-                                
-                                    
-                                
+                                    attributes: ['id', 'content'],
+
+
+
 
                                 },
 
                             ],
-                            attributes: ['id','content'],
+                            attributes: ['id', 'content'],
 
                         },
 
                         ]
 
                     },
-                    
+
                 ]
 
             })

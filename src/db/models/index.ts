@@ -31,6 +31,7 @@ export class Database{
    ExamQuestion:ExamQuestionFactory(this.sequelize,Sequelize),
    Task:TaskFactory(this.sequelize,Sequelize),
    TaskExamQuestion:TaskExamQuestionFactory(this.sequelize,Sequelize)
+   
   }
   Object.keys(this.db).forEach(async (modelName) => {
     if (this.db[modelName].associate) {
