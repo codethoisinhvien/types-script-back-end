@@ -2,6 +2,7 @@
 import { Database } from '../db/models';
 import * as express from 'express';
 import Controller from '../interface/BaseController'
+import { verify } from 'jsonwebtoken';
 
 export default class ExamController implements Controller {
     public data = {}
@@ -26,12 +27,14 @@ export default class ExamController implements Controller {
     updateQuestion = async (request: express.Request, response: express.Response) => {
         console.log(request.params.id)
         console.log(request.body)
+        console.log(request.query)
+        let action = request.query.action
         let exam_id = request.params.id;
-        let question_id = request.body.question
+        let question_id = request.body.question_id
         let score = request.body.score
         console.log(request.body.score)
         try {
-
+             if(action=='add'){
             let ExamQuestion = await this.db.db.ExamQuestion.upsert({
                 exam_id,
                 question_id,
@@ -40,35 +43,76 @@ export default class ExamController implements Controller {
             })
 
             this.data = { success: true, message: "Upadate thành công " };
+        }
+        else if(action =='delete'){
+
+            let ExamQuestion = await this.db.db.ExamQuestion
+            .destroy({
+                
+                where:{exam_id:exam_id,question_id:question_id}
+
+            })
+            this.data = { success: true, message: "Upadate thành công " };
+        }
         } catch (e) {
-            this.data = { success: true, message: "Upadate thất bại " };
+            console.log(e)
+            this.data = { success: false, message: "Upadate thất bại " };
         }
         response.status(this.status).json(this.data)
     }
     get = async (request: express.Request, response: express.Response) => {
-        
+        let token :any=request.headers.authorization;
+        let user:any = verify(token,"phongthien");
         let exm_id = request.params.id
         try {
-            let exam = await this.db.db.Exam.findOne({
-                where: { id: exm_id},
-                attributes: ['id', 'name', 'timedo'],
-               
-                include: [{
-                    model: this.db.db.Question,
-                    through: { attributes: [] },
-                    include: [
-                        {
-                            model: this.db.db.Answer,
-                            through: { attributes: [] },
-                            attributes: ['id', 'content'],
-
-                        }
+            let exam 
+            if(user.user.role==2){
+                exam= await this.db.db.Exam.findOne({
+                    where: { id: exm_id},
+                    attributes: ['id', 'name', 'timedo','subject_id'],
                    
-                    ],
-                    attributes: ['id', 'content'],
-                }]
+                    include: [{
+                        model: this.db.db.Question,
+                        through: { attributes: [] },
+                        include: [
+                            {
+                                model: this.db.db.Answer,
+                                through: {  attributes: ['right'] },
+                                attributes: ['id', 'content'],
+    
+                            }
+                       
+                        ],
+                        attributes: ['id', 'content'],
+                    }]
+    
+                })
+            }else{
 
-            })
+                exam= await this.db.db.Exam.findOne({
+                    where: { id: exm_id},
+                    attributes: ['id', 'name', 'timedo'],
+                   
+                    include: [{
+                        model: this.db.db.Question,
+                        through: { attributes: [] },
+                        include: [
+                            {
+                                model: this.db.db.Answer,
+                                through: { attributes: [] },
+                                attributes: ['id', 'content'],
+    
+                            }
+                       
+                        ],
+                        attributes: ['id', 'content'],
+                    }]
+    
+                })
+
+                }
+            
+           
             console.log(exam)
             
             this.data = {success:true,exam}

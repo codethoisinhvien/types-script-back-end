@@ -15,7 +15,10 @@ export class QuestionApi implements Api {
   intializeRoutes() {
 
     this.router.route(this.path)
-      .post(this.controller.create);
+      .post(this.controller.createOne)
+      .get(this.controller.getList)
+    this.router.route(`${this.path}/:id`)
+       .put(this.controller.updateQuestion)
   }
 }
 

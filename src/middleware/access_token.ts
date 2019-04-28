@@ -11,6 +11,7 @@ export default class AccessToken{
             if(token!=null){
               //  token =token.split(' ')[1];
        let val = await verify(token,this.key);
+       console.log(val)
           if(val==undefined){
             response.status(401).send({meassage:"Token không hợp lệ"})
           }else{

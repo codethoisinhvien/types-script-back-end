@@ -33,12 +33,7 @@ export const QuestionAnswerFactory= (sequelize: Sequelize.Sequelize, DataTypes:S
 
     question_answer.associate = function(models) {
         // associations can be defined here
-        question_answer.hasMany(models.TaskExamQuestion,{
-         foreignKey:'answer_id'
-        })
-        question_answer.hasMany(models.TaskExamQuestion,{
-            foreignKey:'question_id'
-           })
+     
         
     };
     question_answer.removeAttribute('id')

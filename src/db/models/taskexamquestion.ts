@@ -27,17 +27,11 @@ export const TaskExamQuestionFactory= (sequelize: Sequelize.Sequelize, DataTypes
         question_id: { 
             type:DataTypes.INTEGER,
             primaryKey:true,
-            references: {
-                model: 'question_answers',
-                key: 'question_id'
-            }
+            
         },
         answer_id: { 
             type:DataTypes.INTEGER,
-            references: {
-                model: 'question_answers',
-                key: 'answer_id'
-            }
+            
         }
     });
 
