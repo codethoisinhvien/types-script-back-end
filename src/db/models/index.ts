@@ -8,6 +8,8 @@ import { ExamFactory } from './exam';
 import { ExamQuestionFactory } from './examquestion';
 import { TaskFactory } from './task';
 import { TaskExamQuestionFactory } from './taskexamquestion';
+import { NotificationFactory } from './notification';
+import { UserNotificationFactory } from './usernotification';
  interface DbInterface {
   sequelize: Sequelize.Sequelize;
   Sequelize: Sequelize.SequelizeStatic;
@@ -30,8 +32,9 @@ export class Database{
    Exam  :ExamFactory(this.sequelize,Sequelize),
    ExamQuestion:ExamQuestionFactory(this.sequelize,Sequelize),
    Task:TaskFactory(this.sequelize,Sequelize),
-   TaskExamQuestion:TaskExamQuestionFactory(this.sequelize,Sequelize)
-   
+   TaskExamQuestion:TaskExamQuestionFactory(this.sequelize,Sequelize),
+   Notification:NotificationFactory(this.sequelize,Sequelize),
+   UserNotification:UserNotificationFactory(this.sequelize,Sequelize)
   }
   Object.keys(this.db).forEach(async (modelName) => {
     if (this.db[modelName].associate) {

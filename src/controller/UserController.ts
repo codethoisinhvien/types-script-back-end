@@ -82,7 +82,18 @@ export default class UserController implements Controller {
       response.status(this.status).json({ success: false, message: "Thay đổi thông tin thất bại" });
     }
   }
-  updateRole = async (request: express.Request, response: express.Response) => { };
+  updateRole = async (request: express.Request, response: express.Response) => {
+    try {
+      let query = request.body.role
+      let id = request.params.id
+      console.log(id)
+      await this.db.db.User.update({role:query},{where:{id}})
+      this.data= {success:true, message:"Thay đổi thành công"}
+    } catch (error) {
+      this.data = { success: false, message: "Có lỗi xảy ra " }
+    }
+    response.status(this.status).json(this.data);
+   };
   delete = async (request: express.Request, response: express.Response) => { }
   login = async (request: express.Request, response: express.Response) => {
     const { username, password } = request.body
@@ -128,6 +139,25 @@ export default class UserController implements Controller {
       console.log(e)
       this.status = 401
       this.data = { success: false, message: "Không hợp lệ" }
+    }
+    response.status(this.status).json(this.data);
+  }
+  getlist = async (request: express.Request, response: express.Response) => {
+    let page = request.query.page||1
+    let op = this.db.db.Sequelize.Op
+    let condition :any= {id:{[op.gt]:0}}
+    condition.role={[op.lt]:3}
+
+    try {
+      let users = await this.db.db.User.findAll({
+        limit: 20,
+        offset: 20*(page-1),
+        where:condition
+      });
+      this.data= {success:true,users}
+    } catch (error) {
+      console.log(error);
+      this.data= {success:false,message:"Có lỗi xảy ra"}
     }
     response.status(this.status).json(this.data);
   }

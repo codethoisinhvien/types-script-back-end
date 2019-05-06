@@ -66,7 +66,20 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes:Sequelize.
        user.hasMany(models.Task,{
          foreignKey: 'user_id', 
        })
+       user.hasMany(models.Notification,{
+        foreignKey: 'id_create',         
+
+  })
+       user.belongsToMany(models.Notification,{
+        foreignKey: 'user_id',
+        through: {
+            model: models.UserNotification,
+            unique: false
+        }
+    })
+       
     };
 
+      
     return user;
 };

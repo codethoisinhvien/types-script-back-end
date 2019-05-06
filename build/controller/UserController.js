@@ -145,9 +145,30 @@ var UserController = /** @class */ (function () {
                 }
             });
         }); };
-        this.updateRole = function (request, response) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            return [2 /*return*/];
-        }); }); };
+        this.updateRole = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
+            var query, id, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        query = request.body.role;
+                        id = request.params.id;
+                        console.log(id);
+                        return [4 /*yield*/, this.db.db.User.update({ role: query }, { where: { id: id } })];
+                    case 1:
+                        _a.sent();
+                        this.data = { success: true, message: "Thay đổi thành công" };
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_2 = _a.sent();
+                        this.data = { success: false, message: "Có lỗi xảy ra " };
+                        return [3 /*break*/, 3];
+                    case 3:
+                        response.status(this.status).json(this.data);
+                        return [2 /*return*/];
+                }
+            });
+        }); };
         this.delete = function (request, response) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
             return [2 /*return*/];
         }); }); };
@@ -223,6 +244,38 @@ var UserController = /** @class */ (function () {
                         this.data = { success: false, message: "Không hợp lệ" };
                         return [3 /*break*/, 7];
                     case 7:
+                        response.status(this.status).json(this.data);
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        this.getlist = function (request, response) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, _b, page, op, condition, users, error_3;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        page = request.query.page || 1;
+                        op = this.db.db.Sequelize.Op;
+                        condition = { id: (_a = {}, _a[op.gt] = 0, _a) };
+                        condition.role = (_b = {}, _b[op.lt] = 3, _b);
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.db.db.User.findAll({
+                                limit: 20,
+                                offset: 20 * (page - 1),
+                                where: condition
+                            })];
+                    case 2:
+                        users = _c.sent();
+                        this.data = { success: true, users: users };
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_3 = _c.sent();
+                        console.log(error_3);
+                        this.data = { success: false, message: "Có lỗi xảy ra" };
+                        return [3 /*break*/, 4];
+                    case 4:
                         response.status(this.status).json(this.data);
                         return [2 /*return*/];
                 }

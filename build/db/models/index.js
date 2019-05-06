@@ -48,6 +48,8 @@ var exam_1 = require("./exam");
 var examquestion_1 = require("./examquestion");
 var task_1 = require("./task");
 var taskexamquestion_1 = require("./taskexamquestion");
+var notification_1 = require("./notification");
+var usernotification_1 = require("./usernotification");
 var Database = /** @class */ (function () {
     function Database(sequelizeConfig) {
         var _this = this;
@@ -64,7 +66,9 @@ var Database = /** @class */ (function () {
             Exam: exam_1.ExamFactory(this.sequelize, index_1.default),
             ExamQuestion: examquestion_1.ExamQuestionFactory(this.sequelize, index_1.default),
             Task: task_1.TaskFactory(this.sequelize, index_1.default),
-            TaskExamQuestion: taskexamquestion_1.TaskExamQuestionFactory(this.sequelize, index_1.default)
+            TaskExamQuestion: taskexamquestion_1.TaskExamQuestionFactory(this.sequelize, index_1.default),
+            Notification: notification_1.NotificationFactory(this.sequelize, index_1.default),
+            UserNotification: usernotification_1.UserNotificationFactory(this.sequelize, index_1.default)
         };
         Object.keys(this.db).forEach(function (modelName) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {

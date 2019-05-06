@@ -76,7 +76,7 @@ export default class QuestionController implements Controller {
         await this.db.db.Question.upsert({data})
         let b = await this.db.db.QuestionAnswer.findAll({where:{question_id:data.id}})
         let a =await this.db.db.QuestionAnswer.destroy({where:{question_id:data.id}})
-        console.log(b[0].answer_id)
+      
         for(let i =0 ;i<b.length;i++){
             await this.db.db.Answer.destroy({where:{id:b[i].answer_id}})
         }
