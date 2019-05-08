@@ -36,6 +36,7 @@ export class Database{
    Notification:NotificationFactory(this.sequelize,Sequelize),
    UserNotification:UserNotificationFactory(this.sequelize,Sequelize)
   }
+  
   Object.keys(this.db).forEach(async (modelName) => {
     if (this.db[modelName].associate) {
       this.db[modelName].associate(this.db);

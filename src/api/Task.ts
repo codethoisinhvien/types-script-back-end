@@ -16,12 +16,12 @@ export class TaskApi implements Api {
   intializeRoutes() {
 
     this.router.route(this.path)
-      .post(this.controller.create)
+      .post(this.access.access,this.controller.create)
       .get(this.controller.getList)
     this.router.route(this.path+"/:id") 
-      .put(this.controller.update)
-      .delete(this.controller.delete)
-      .get(this.controller.getInformation)
+      .put(this.access.access,this.controller.update)
+      .delete(this.access.access,this.controller.delete)
+      .get(this.access.access,this.controller.getInformation)
   }
 }
 

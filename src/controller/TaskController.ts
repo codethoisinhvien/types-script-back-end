@@ -187,7 +187,7 @@ export default class TaskController implements Controller {
                 ]
 
             })
-            this.data = res
+            this.data = {success:true,data:res}
         } catch (error) {
             console.log(error)
         }

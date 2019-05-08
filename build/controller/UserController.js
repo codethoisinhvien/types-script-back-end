@@ -100,15 +100,15 @@ var UserController = /** @class */ (function () {
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.db.db.User.findOne({ attributes: ['username', 'email', 'birthday', 'sex', 'createdAt', 'first_name', 'last_name'] }, { where: { id: data.user.id } })];
+                        return [4 /*yield*/, this.db.db.User.findOne({ attributes: ['username', 'email', 'birthday', 'sex', 'createdAt', 'first_name', 'last_name'], where: { id: data.user.id } })];
                     case 2:
                         user = _a.sent();
-                        console.log(user);
                         this.data = { success: true, user: user };
                         return [3 /*break*/, 4];
                     case 3:
                         error_1 = _a.sent();
                         console.log(error_1);
+                        this.data = { success: false, message: "Có lỗi xảy ra" };
                         return [3 /*break*/, 4];
                     case 4:
                         response.status(this.status).json(this.data);

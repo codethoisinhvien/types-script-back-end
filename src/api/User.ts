@@ -23,8 +23,8 @@ export class UserApi implements Api {
     this.router.route(`${this.path}/:id`)
       .put(this.controller.updateRole)
     this.router.route('/profile')
-      .get(this.controller.get)
-      .put(this.controller.updateBaseInformation)
+      .get(this.access.access,this.controller.get)
+      .put(this.access.access,this.controller.updateBaseInformation)
     this.router.route('/password')
     .put(this.controller.changePassword)
   

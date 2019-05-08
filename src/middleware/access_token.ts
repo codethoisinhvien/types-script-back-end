@@ -6,12 +6,11 @@ export default class AccessToken{
         
         let token:any= request.headers.authorization
      ;
-      
         try{
             if(token!=null){
               //  token =token.split(' ')[1];
        let val = await verify(token,this.key);
-       console.log(val)
+          console.log('val',val)
           if(val==undefined){
             response.status(401).send({meassage:"Token không hợp lệ"})
           }else{
@@ -20,9 +19,9 @@ export default class AccessToken{
       
         
         }
-        response.status(401).send({meassage:"Token không hợp lệ"})
+       
         }catch(e){
-
+          console.log(e)
         response.status(401).send({meassage:"Token không hợp lệ"})
         }
     

@@ -52,13 +52,15 @@ export default class UserController implements Controller {
   }
   get = async (request: express.Request, response: express.Response) => {
     let token: any = request.headers.authorization;
+    
     let data: any = verify(token, key);
     try {
-      let user = await this.db.db.User.findOne({ attributes: ['username','email','birthday','sex','createdAt','first_name','last_name']},{where:{id:data.user.id}});
-      console.log(user)
+      let user = await this.db.db.User.findOne({ attributes: ['username','email','birthday','sex','createdAt','first_name','last_name'],where:{id:data.user.id}});
+     
       this.data={success:true,user}
     } catch (error) {
       console.log(error)
+      this.data={success:false,message:"Có lỗi xảy ra"}
     }
     response.status(this.status).json(this.data);
   }

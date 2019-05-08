@@ -18,7 +18,7 @@ export class EXamApi implements Api {
     .post(this.controller.create)
     
   this.router.route('/exams/:id')
-  .put(this.controller.updateQuestion)
+  .put(this.access.modAccess,this.controller.updateQuestion)
   .delete(this.controller.delete)
   .get(this.controller.get)
 
