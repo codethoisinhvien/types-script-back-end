@@ -26,7 +26,7 @@ export class UserApi implements Api {
       .get(this.access.access,this.controller.get)
       .put(this.access.access,this.controller.updateBaseInformation)
     this.router.route('/password')
-    .put(this.controller.changePassword)
+    .put(this.access.access,this.controller.changePassword)
   
    
 

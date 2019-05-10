@@ -35,7 +35,7 @@ var UserApi = /** @class */ (function () {
             .get(this.access.access, this.controller.get)
             .put(this.access.access, this.controller.updateBaseInformation);
         this.router.route('/password')
-            .put(this.controller.changePassword);
+            .put(this.access.access, this.controller.changePassword);
     };
     ;
     return UserApi;

@@ -68,7 +68,7 @@ export default class NotificationController implements Controller {
               let notification = await this.db.db.Notification.findAll(
                   
                 {
-                  attributes: ['id','content'],
+                  attributes: ['id','content','createdAt'],
                  
                   include:[{
 

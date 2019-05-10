@@ -3,6 +3,7 @@ import { Database } from '../db/models';
 import * as express from 'express';
 import Controller from '../interface/BaseController'
 import { SubjectAttributes } from '../db/models/subject';
+import { verify } from 'jsonwebtoken';
 
 
 export default class SubjectController implements Controller {
@@ -11,7 +12,7 @@ export default class SubjectController implements Controller {
     public db = Database.setInstance(null);
     create = async(request: express.Request, response: express.Response)=>{
         console.log(request.body)
-        let data:SubjectAttributes=request.body
+        let data=request.body
         try{
      let subject  =await this.db.db.Subject.create(data)
      this.data={success:true,data: subject.dataValues.id}
@@ -43,9 +44,32 @@ export default class SubjectController implements Controller {
     }
     getExamsOfSubject= async (request: express.Request, response: express.Response)=>{
         console.log(request.params)
+        let token:any =request.headers.authorization
+        let user:any= verify(token,"phongthien")
+        let role = user.user.role
+        let page = request.query.page||1
         try {
             let subject_id = request.params.id 
-            let listExam= await this.db.db.Exam.findAll({attributes: ['id','name','score','timedo'],where:{subject_id:subject_id}})
+            let listExam
+            if(role==2){
+
+            
+            listExam= await this.db.db.Exam.findAll({attributes: ['id','name','score','timedo'],where:{subject_id:subject_id},
+        
+          offset :(page-1)*6,
+          limit  :6
+
+        })
+    }else{
+ 
+        listExam= await this.db.db.Exam.findAll({attributes: ['id','name','score','timedo'],where:{subject_id:subject_id,status:true},
+        
+        offset :(page-1)*6,
+        limit  :6
+
+      })
+        }
+    
             console.log(listExam)
             this.data= {success:true,data:listExam}
         } catch (error) {

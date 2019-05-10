@@ -9,9 +9,9 @@ export default class AccessToken{
         try{
             if(token!=null){
               //  token =token.split(' ')[1];
-       let val = await verify(token,this.key);
+       let val :any= await verify(token,this.key);
           console.log('val',val)
-          if(val==undefined){
+          if(val==undefined||val.user.role==0){
             response.status(401).send({meassage:"Token không hợp lệ"})
           }else{
             next()
@@ -28,20 +28,40 @@ export default class AccessToken{
     }
     modAccess=async (request: express.Request, response: express.Response,next:any)=>{
          
-        let token:any= request.headers.authorization
-        token =token.split(' ')[1];
+      let token:any= request.headers.authorization
+      console.log(token)
       
         try{
-            let val = await verify('eyJhbGcOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZ2lhbmciLCJpYXQiOjE1NTQ2MTQyMDd9.uNxa67xjDG1SNE-0x791M3ijST1ru1pemZDErLyivXs',this.key);
-            console.log(val);
+            let val :any= await verify(token,this.key);
+          if(val.user.role==2){
             next()  
+          }else{
+            response.status(401).send({meassage:"Không có quyền truy câp"})
+          }
+         
              }catch(e){
+               console.log(e)
                 response.status(401).send({meassage:"Token không hợp lệ"})
              }
          
     }
-    adminAccess=()=>{
-
+    adminAccess=async (request: express.Request, response: express.Response,next:any)=>{
+   
+      let token:any= request.headers.authorization
+      console.log(token)
+      
+        try{
+            let val :any= await verify(token,this.key);
+          if(val.user.role==3){
+            next()  
+          }else{
+            response.status(401).send({meassage:"Không có quyền truy câp"})
+          }
+         
+             }catch(e){
+               console.log(e)
+                response.status(401).send({meassage:"Token không hợp lệ"})
+             }
     }
  
 }

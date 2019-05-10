@@ -23,6 +23,18 @@ export default class ExamController implements Controller {
     }
     updateConfig = async (request: express.Request, response: express.Response) => {
 
+      let data =request.body
+      console.log(data)
+      let exam_id= request.params.id;
+      console.log(exam_id)
+      try {
+         let b=await  this.db.db.Exam.update(data,{where:{id:exam_id}})
+          this.data={success:true,message:"Thay đổi thành công"}
+          console.log(b)
+      } catch (error) {
+        this.data={success:false,message:"Thay đổi thất bại"}
+      }
+      response.status(this.status).json(this.data)
     }
     updateQuestion = async (request: express.Request, response: express.Response) => {
         console.log(request.params.id)
@@ -69,7 +81,7 @@ export default class ExamController implements Controller {
             if(user.user.role==2){
                 exam= await this.db.db.Exam.findOne({
                     where: { id: exm_id},
-                    attributes: ['id', 'name', 'timedo','subject_id'],
+                    attributes: ['id', 'name', 'timedo','subject_id','score','status'],
                    
                     include: [{
                         model: this.db.db.Question,
@@ -90,7 +102,7 @@ export default class ExamController implements Controller {
             }else{
 
                 exam= await this.db.db.Exam.findOne({
-                    where: { id: exm_id},
+                    where: { id: exm_id,status:true},
                     attributes: ['id', 'name', 'timedo'],
                    
                     include: [{
@@ -113,11 +125,12 @@ export default class ExamController implements Controller {
                 }
             
            
-            console.log(exam)
+            
             
             this.data = {success:true,exam}
         } catch (error) {
             console.log(error)
+            this.data = {success:false,message:"Có lỗi xảy ra"}
         }
         response.status(this.status).json(this.data)
 

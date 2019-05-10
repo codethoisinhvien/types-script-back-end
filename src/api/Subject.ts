@@ -16,11 +16,11 @@ export class SubjectApi implements Api {
   intializeRoutes() {
 
     this.router.route(this.path)
-      .post(this.controller.create)
+      .post(this.access.modAccess,this.controller.create)
       .get(this.controller.getlist);
 
     this.router.route(this.path+"/:id")
-    .get(this.controller.getExamsOfSubject)
+    .get(this.access.access,this.controller.getExamsOfSubject)
   }
 }
 

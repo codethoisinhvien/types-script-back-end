@@ -17,9 +17,9 @@ export class NotificationApi implements Api {
   intializeRoutes() {
     
   this.router.route(this.path).post(this.controller.create)
-  .get(this.controller.getlist)
+  .get(this.access.access,this.controller.getlist)
 
-  this.router.route(`${this.path}/:id`).put(this.controller.update)
+  this.router.route(`${this.path}/:id`).put(this.access.access,this.controller.update)
 
 
 
